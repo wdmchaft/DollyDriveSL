@@ -1,0 +1,611 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		FB1055301347DFA500109A2D /* hard-links.c in Sources */ = {isa = PBXBuildFile; fileRef = FB10552E1347DFA500109A2D /* hard-links.c */; };
+		FB1055311347DFA500109A2D /* hard-links.c in Sources */ = {isa = PBXBuildFile; fileRef = FB10552E1347DFA500109A2D /* hard-links.c */; };
+		FB1055351347E5B800109A2D /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB1055341347E5B800109A2D /* CoreFoundation.framework */; };
+		FB1055371347E5BF00109A2D /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB1055361347E5BF00109A2D /* CoreFoundation.framework */; };
+		FB1B68E2134197E3006EBB4A /* sync.c in Sources */ = {isa = PBXBuildFile; fileRef = FB71A502133FF66600133E92 /* sync.c */; };
+		FB1B68E3134197E4006EBB4A /* sync.c in Sources */ = {isa = PBXBuildFile; fileRef = FB71A502133FF66600133E92 /* sync.c */; };
+		FB1B68E4134197E7006EBB4A /* copy.c in Sources */ = {isa = PBXBuildFile; fileRef = FBD663F713329674006D63DC /* copy.c */; };
+		FB5CD8CF12F7DC5B001B384E /* helper.c in Sources */ = {isa = PBXBuildFile; fileRef = FB5CD8C612F7DA38001B384E /* helper.c */; };
+		FB5CD8E212F7DCEB001B384E /* CloneVolume Helper in Copy Helper */ = {isa = PBXBuildFile; fileRef = FB5CD8CB12F7DC53001B384E /* CloneVolume Helper */; };
+		FB71A4F9133C278300133E92 /* copy.c in Sources */ = {isa = PBXBuildFile; fileRef = FBD663F713329674006D63DC /* copy.c */; };
+		FB77CBCE1353B65300894F90 /* case-insens.c in Sources */ = {isa = PBXBuildFile; fileRef = FB77CBCC1353B65300894F90 /* case-insens.c */; };
+		FB77CBCF1353B65300894F90 /* case-insens.c in Sources */ = {isa = PBXBuildFile; fileRef = FB77CBCC1353B65300894F90 /* case-insens.c */; };
+		FBD4EBC212DDB04E002F27A8 /* CVDisk.m in Sources */ = {isa = PBXBuildFile; fileRef = FBD4EBC112DDB04E002F27A8 /* CVDisk.m */; };
+		FBD4EBC712DDB1B3002F27A8 /* CVMainController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBD4EBC612DDB1B3002F27A8 /* CVMainController.m */; };
+		FBD4ED9812DDB5E7002F27A8 /* DiskArbitration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBD4ED9712DDB5E7002F27A8 /* DiskArbitration.framework */; };
+		FBD4EE9712DDBBE8002F27A8 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBD4EE9612DDBBE8002F27A8 /* IOKit.framework */; };
+		FBD4EF0612DE209F002F27A8 /* CVSelectedView.m in Sources */ = {isa = PBXBuildFile; fileRef = FBD4EF0512DE209F002F27A8 /* CVSelectedView.m */; };
+		FBD4EF9F12DE2809002F27A8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBD4EF9E12DE2809002F27A8 /* Security.framework */; };
+		FBD4F0C512DE44A1002F27A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FBD4F0C412DE44A1002F27A8 /* Localizable.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FB5CD8DF12F7DCD0001B384E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FB5CD8CA12F7DC53001B384E;
+			remoteInfo = "CloneVolume Helper";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FB5CD8E312F7DD09001B384E /* Copy Helper */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				FB5CD8E212F7DCEB001B384E /* CloneVolume Helper in Copy Helper */,
+			);
+			name = "Copy Helper";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB71A45B133B547D00133E92 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		256AC3F00F4B6AF500CF3369 /* CloneVolume_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloneVolume_Prefix.pch; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		8D1107310486CEB800E47090 /* CloneVolume-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CloneVolume-Info.plist"; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* CloneVolume.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloneVolume.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB10552D1347DF5500109A2D /* sync-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "sync-private.h"; sourceTree = "<group>"; };
+		FB10552E1347DFA500109A2D /* hard-links.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "hard-links.c"; sourceTree = "<group>"; };
+		FB10552F1347DFA500109A2D /* hard-links.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "hard-links.h"; sourceTree = "<group>"; };
+		FB1055321347E5A600109A2D /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		FB1055341347E5B800109A2D /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		FB1055361347E5BF00109A2D /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		FB5CD8C612F7DA38001B384E /* helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = helper.c; sourceTree = "<group>"; };
+		FB5CD8CB12F7DC53001B384E /* CloneVolume Helper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "CloneVolume Helper"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB71A45D133B547D00133E92 /* copy-test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "copy-test"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB71A462133B547D00133E92 /* copy_test.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = copy_test.1; sourceTree = "<group>"; };
+		FB71A502133FF66600133E92 /* sync.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sync.c; sourceTree = "<group>"; };
+		FB71A503133FF66600133E92 /* sync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sync.h; sourceTree = "<group>"; };
+		FB71A5061340012400133E92 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
+		FB77CBCC1353B65300894F90 /* case-insens.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "case-insens.c"; sourceTree = "<group>"; };
+		FB77CBCD1353B65300894F90 /* case-insens.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "case-insens.h"; sourceTree = "<group>"; };
+		FBD4EBC012DDB04E002F27A8 /* CVDisk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVDisk.h; sourceTree = "<group>"; };
+		FBD4EBC112DDB04E002F27A8 /* CVDisk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CVDisk.m; sourceTree = "<group>"; };
+		FBD4EBC512DDB1B3002F27A8 /* CVMainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVMainController.h; sourceTree = "<group>"; };
+		FBD4EBC612DDB1B3002F27A8 /* CVMainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CVMainController.m; sourceTree = "<group>"; };
+		FBD4ED9712DDB5E7002F27A8 /* DiskArbitration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiskArbitration.framework; path = System/Library/Frameworks/DiskArbitration.framework; sourceTree = SDKROOT; };
+		FBD4EE9612DDBBE8002F27A8 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		FBD4EF0412DE209F002F27A8 /* CVSelectedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVSelectedView.h; sourceTree = "<group>"; };
+		FBD4EF0512DE209F002F27A8 /* CVSelectedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CVSelectedView.m; sourceTree = "<group>"; };
+		FBD4EF9E12DE2809002F27A8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		FBD4F0BB12DE446A002F27A8 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		FBD663F713329674006D63DC /* copy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = copy.c; sourceTree = "<group>"; };
+		FBD663F813329674006D63DC /* copy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = copy.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				FBD4ED9812DDB5E7002F27A8 /* DiskArbitration.framework in Frameworks */,
+				FBD4EE9712DDBBE8002F27A8 /* IOKit.framework in Frameworks */,
+				FBD4EF9F12DE2809002F27A8 /* Security.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB5CD8C912F7DC53001B384E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB1055371347E5BF00109A2D /* CoreFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB71A45A133B547D00133E92 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB1055351347E5B800109A2D /* CoreFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				FBD4EBC012DDB04E002F27A8 /* CVDisk.h */,
+				FBD4EBC112DDB04E002F27A8 /* CVDisk.m */,
+				FBD4EBC512DDB1B3002F27A8 /* CVMainController.h */,
+				FBD4EBC612DDB1B3002F27A8 /* CVMainController.m */,
+				FBD4EF0412DE209F002F27A8 /* CVSelectedView.h */,
+				FBD4EF0512DE209F002F27A8 /* CVSelectedView.m */,
+			);
+			indentWidth = 2;
+			name = Classes;
+			sourceTree = "<group>";
+			tabWidth = 8;
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* CloneVolume.app */,
+				FB5CD8CB12F7DC53001B384E /* CloneVolume Helper */,
+				FB71A45D133B547D00133E92 /* copy-test */,
+			);
+			indentWidth = 2;
+			name = Products;
+			sourceTree = "<group>";
+			tabWidth = 8;
+		};
+		29B97314FDCFA39411CA2CEA /* clone-volume */ = {
+			isa = PBXGroup;
+			children = (
+				FB1055361347E5BF00109A2D /* CoreFoundation.framework */,
+				FB1055341347E5B800109A2D /* CoreFoundation.framework */,
+				FB1055321347E5A600109A2D /* CoreFoundation.framework */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				FB71A45F133B547D00133E92 /* copy-test */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+				FBD4ED9712DDB5E7002F27A8 /* DiskArbitration.framework */,
+				FBD4EE9612DDBBE8002F27A8 /* IOKit.framework */,
+				FBD4EF9E12DE2809002F27A8 /* Security.framework */,
+				FBD4F0C412DE44A1002F27A8 /* Localizable.strings */,
+			);
+			name = "clone-volume";
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				256AC3F00F4B6AF500CF3369 /* CloneVolume_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+				FB5CD8C612F7DA38001B384E /* helper.c */,
+				FB77CBCC1353B65300894F90 /* case-insens.c */,
+				FB77CBCD1353B65300894F90 /* case-insens.h */,
+				FB10552E1347DFA500109A2D /* hard-links.c */,
+				FB10552F1347DFA500109A2D /* hard-links.h */,
+				FB10552D1347DF5500109A2D /* sync-private.h */,
+				FB71A5061340012400133E92 /* utils.h */,
+				FB71A502133FF66600133E92 /* sync.c */,
+				FB71A503133FF66600133E92 /* sync.h */,
+				FBD663F713329674006D63DC /* copy.c */,
+				FBD663F813329674006D63DC /* copy.h */,
+			);
+			indentWidth = 2;
+			name = "Other Sources";
+			sourceTree = "<group>";
+			tabWidth = 8;
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107310486CEB800E47090 /* CloneVolume-Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
+			);
+			indentWidth = 2;
+			name = Resources;
+			sourceTree = "<group>";
+			tabWidth = 8;
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			indentWidth = 2;
+			name = Frameworks;
+			sourceTree = "<group>";
+			tabWidth = 8;
+		};
+		FB71A45F133B547D00133E92 /* copy-test */ = {
+			isa = PBXGroup;
+			children = (
+				FB71A462133B547D00133E92 /* copy_test.1 */,
+			);
+			path = "copy-test";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* CloneVolume */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "CloneVolume" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+				FB5CD8E312F7DD09001B384E /* Copy Helper */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FB5CD8E012F7DCD0001B384E /* PBXTargetDependency */,
+			);
+			name = CloneVolume;
+			productInstallPath = "$(HOME)/Applications";
+			productName = "clone-volume";
+			productReference = 8D1107320486CEB800E47090 /* CloneVolume.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FB5CD8CA12F7DC53001B384E /* CloneVolume Helper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FB5CD8DA12F7DC7D001B384E /* Build configuration list for PBXNativeTarget "CloneVolume Helper" */;
+			buildPhases = (
+				FB5CD8C812F7DC53001B384E /* Sources */,
+				FB5CD8C912F7DC53001B384E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CloneVolume Helper";
+			productName = "CloneVolume Helper";
+			productReference = FB5CD8CB12F7DC53001B384E /* CloneVolume Helper */;
+			productType = "com.apple.product-type.tool";
+		};
+		FB71A45C133B547D00133E92 /* copy-test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FB71A465133B547D00133E92 /* Build configuration list for PBXNativeTarget "copy-test" */;
+			buildPhases = (
+				FB71A459133B547D00133E92 /* Sources */,
+				FB71A45A133B547D00133E92 /* Frameworks */,
+				FB71A45B133B547D00133E92 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "copy-test";
+			productName = "copy-test";
+			productReference = FB71A45D133B547D00133E92 /* copy-test */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = Pumptheory.;
+			};
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "CloneVolume" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* clone-volume */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* CloneVolume */,
+				FB5CD8CA12F7DC53001B384E /* CloneVolume Helper */,
+				FB71A45C133B547D00133E92 /* copy-test */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
+				FBD4F0C512DE44A1002F27A8 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				FBD4EBC212DDB04E002F27A8 /* CVDisk.m in Sources */,
+				FBD4EBC712DDB1B3002F27A8 /* CVMainController.m in Sources */,
+				FBD4EF0612DE209F002F27A8 /* CVSelectedView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB5CD8C812F7DC53001B384E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB5CD8CF12F7DC5B001B384E /* helper.c in Sources */,
+				FB1B68E3134197E4006EBB4A /* sync.c in Sources */,
+				FB1B68E4134197E7006EBB4A /* copy.c in Sources */,
+				FB1055301347DFA500109A2D /* hard-links.c in Sources */,
+				FB77CBCE1353B65300894F90 /* case-insens.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB71A459133B547D00133E92 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB71A4F9133C278300133E92 /* copy.c in Sources */,
+				FB1B68E2134197E3006EBB4A /* sync.c in Sources */,
+				FB1055311347DFA500109A2D /* hard-links.c in Sources */,
+				FB77CBCF1353B65300894F90 /* case-insens.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FB5CD8E012F7DCD0001B384E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FB5CD8CA12F7DC53001B384E /* CloneVolume Helper */;
+			targetProxy = FB5CD8DF12F7DCD0001B384E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1DDD58140DA1D0A300B32029 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1DDD58150DA1D0A300B32029 /* English */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		FBD4F0C412DE44A1002F27A8 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FBD4F0BB12DE446A002F27A8 /* English */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CloneVolume_Prefix.pch;
+				INFOPLIST_FILE = "CloneVolume-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = CloneVolume;
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+					"-Wno-unused-parameter",
+				);
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CloneVolume_Prefix.pch;
+				INFOPLIST_FILE = "CloneVolume-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = CloneVolume;
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+					"-Wno-unused-parameter",
+				);
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		FB5CD8CD12F7DC53001B384E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = "CloneVolume Helper";
+			};
+			name = Debug;
+		};
+		FB5CD8CE12F7DC53001B384E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = "CloneVolume Helper";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		FB71A463133B547D00133E92 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"TEST=1",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		FB71A464133B547D00133E92 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"TEST=1",
+				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "CloneVolume" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "CloneVolume" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FB5CD8DA12F7DC7D001B384E /* Build configuration list for PBXNativeTarget "CloneVolume Helper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB5CD8CD12F7DC53001B384E /* Debug */,
+				FB5CD8CE12F7DC53001B384E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FB71A465133B547D00133E92 /* Build configuration list for PBXNativeTarget "copy-test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB71A463133B547D00133E92 /* Debug */,
+				FB71A464133B547D00133E92 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

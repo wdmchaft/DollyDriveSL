@@ -1,0 +1,738 @@
+//
+//  ADDInfoView.m
+//  DollyDriveApp
+//
+//  Created by Mark Aufflick on 13/12/10.
+//  Copyright 2010 Pumptheory. All rights reserved.
+//
+
+#import "ADDInfoView.h"
+
+#import "DollyDriveAppAppDelegate.h"
+#import "ADDBonjour.h"
+#import "ADDAppConfig.h"
+
+#import "TMSliderView.h"
+
+#import "MGANSImage+IconServices.h"
+
+#import "AppleTMSettings.h"
+
+@interface AppleTMSettings (Swizzle)
+
+- (BOOL)newSetBackupPath:(id)arg1 error:(id *)arg2;
+
+@end
+
+@implementation AppleTMSettings (Swizzle)
+
+- (BOOL)newSetBackupPath:(id)arg1 error:(id *)arg2
+{
+	NSLog(@"arg1: %@", arg1);
+	return [self newSetBackupPath:arg1 error:arg2];
+}
+
+@end
+
+#import </usr/include/objc/objc-class.h>
+BOOL MethodSwizzle(Class klass, SEL origSel, SEL altSel, BOOL forInstance)
+{
+    // First, make sure the class isn't nil
+	if (klass != nil) {
+		Method origMethod = NULL, altMethod = NULL;
+        
+		// Next, look for the methods
+		Class iterKlass = (forInstance ? klass : klass->isa);
+		unsigned int methodCount = 0;
+		Method *mlist = class_copyMethodList(iterKlass, &methodCount);
+		if (mlist != NULL) {
+			int i;
+			for (i = 0; i < methodCount; ++i) {
+                
+				if (method_getName(mlist[i]) == origSel) {
+					origMethod = mlist[i];
+					break;
+				}
+				if (method_getName(mlist[i]) == altSel) {
+					altMethod = mlist[i];
+					break;
+				}
+			}
+		}
+        
+		if (origMethod == NULL || altMethod == NULL) {
+			// one or both methods are not in the immediate class
+			// try searching the entire hierarchy
+			// remember, iterKlass is the class we care about - klass || klass->isa
+			// class_getInstanceMethod on a metaclass is the same as class_getClassMethod on the real class
+			BOOL pullOrig = NO, pullAlt = NO;
+			if (origMethod == NULL) {
+				origMethod = class_getInstanceMethod(iterKlass, origSel);
+				pullOrig = YES;
+			}
+			if (altMethod == NULL) {
+				altMethod = class_getInstanceMethod(iterKlass, altSel);
+				pullAlt = YES;
+			}
+            
+			// die now if one of the methods doesn't exist anywhere in the hierarchy
+			// this way we won't make any changes to the class if we can't finish
+			if (origMethod == NULL || altMethod == NULL) {
+				return NO;
+			}
+            
+			// we can safely assume one of the two methods, at least, will be pulled
+			// pull them up
+			size_t listSize = sizeof(Method);
+			if (pullOrig && pullAlt) listSize += sizeof(Method); // need 2 methods
+			if (pullOrig) {
+				class_addMethod(iterKlass, method_getName(origMethod), method_getImplementation(origMethod), method_getTypeEncoding(origMethod));
+			}
+			if (pullAlt) {
+				class_addMethod(iterKlass, method_getName(altMethod), method_getImplementation(altMethod), method_getTypeEncoding(altMethod));
+			}
+		}
+        
+		// now swizzle
+		method_exchangeImplementations(origMethod, altMethod);
+        
+		return YES;
+	}
+	return NO;
+}
+
+
+@interface ADDInfoView (Private)
+
+- (id)updateTMName;
+- (id)updateTMOldestBackup;
+- (id)updateTMLatestBackup;
+- (id)updateTMNextBackup;
+- (id)updateTMOnOff;
+- (id)updateProgressTextField;
+- (id)updateProgressIndicator;
+
+- (void)presentChangeVolumeView;
+- (void)presentSizeView;
+
+- (void)continueChoosingDiskAtIndex1;
+- (void)continueChoosingDiskAtIndex2;
+
+@end
+
+void *ADDTMPrefPaneNameFieldObserver = (void *)@"ADDTMPrefPaneNameFieldObserver";
+void *ADDTMPrefPaneOldestBackupFieldObserver = (void *)@"ADDTMPrefPaneOldestBackupFieldObserver";
+void *ADDTMPrefPaneLatestBackupFieldObserver = (void *)@"ADDTMPrefPaneLatestBackupFieldObserver";
+void *ADDTMPrefPaneNextBackupFieldObserver = (void *)@"ADDTMPrefPaneNextBackupFieldObserver";
+void *ADDTMPrefPaneProgressTextFieldObserver = (void *)@"ADDTMPrefPaneProgressTextFieldObserver";
+void *ADDTMPrefPaneProgressIndicatorObserver = (void *)@"ADDTMPrefPaneProgressIndicatorObserver";
+
+
+@implementation ADDInfoView
+
+@synthesize volumeName;
+@synthesize oldestBackup;
+@synthesize nextBackup;
+@synthesize latestBackup;
+@synthesize onOffSelection;
+@synthesize exclusionsWindowController;
+@synthesize mainWindowCloneVC;
+@synthesize progressDescription;
+@synthesize progressIndicatorMaxValue;
+@synthesize progressIndicatorMinValue;
+@synthesize progressIndicatorDoubleValue;
+@synthesize progressIndicatorIsIndeterminate;
+@synthesize shareSizeString;
+@synthesize progressTimer;
+@synthesize alertIconImage;
+@synthesize dollyConfigured;
+@synthesize username;
+
+- (void)awakeFromNib
+{
+    [self setTitle:@"Dolly Drive"];
+    
+    self.alertIconImage = [NSImage mga_imageWithIconServicesConstant:kAlertNoteIcon];
+    
+    //TODO: move this TM stuff out to a separate class
+    
+    NSBundle *prefBundle = [NSBundle bundleWithPath:@"/System/Library/PreferencePanes/TimeMachine.prefPane"];
+    
+    if (!prefBundle)
+    {
+        NSLog(@"couldn't load TimeMachine pref pane bundle");
+
+        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        [alert addButtonWithTitle:@"OK"];
+        [alert setMessageText:@"Loading Time Machine preferences failed"];
+        [alert setInformativeText:@"Unable to load the Time Machine preferences"];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        
+        [alert beginSheetModalForWindow:[self.windowController window]
+                          modalDelegate:nil
+                         didEndSelector:NULL
+                            contextInfo:nil];
+        
+    }
+        
+    Class prefPaneClass = [prefBundle principalClass];
+    
+    // backup time machine config if first run
+    ADDAppConfig *appConfig = [ADDAppConfig sharedAppConfig];
+    if ([appConfig isFirstRun])
+        [appConfig backupOrigTimeMachinePlist];
+    
+    self.username = appConfig.serverConfig.afpUsername;
+    
+    self.shareSizeString = [NSString stringWithFormat:@"%.0f Gb", [[[[ADDAppConfig sharedAppConfig] serverConfig] quotaSize] doubleValue]];
+    
+    tmPrefPaneObject = [[prefPaneClass alloc] initWithBundle:prefBundle];
+    
+    // need to set the pref pane object on the app delegate so it can quit cleanly
+    DollyDriveAppAppDelegate *appDelegate = [[NSApplication sharedApplication] delegate];
+    [appDelegate setTMPrefPaneObject:tmPrefPaneObject];
+    
+    if ([tmPrefPaneObject loadMainView])
+    {
+        [tmPrefPaneObject willSelect];
+        tmPrefPaneView = [tmPrefPaneObject mainView];
+        
+        // add view outside view
+        NSRect frame = [tmPrefPaneView frame];
+        frame.origin.y = -1 - frame.size.height;
+        [tmPrefPaneView setFrame:frame];
+        
+        [prefPaneHostView addSubview:tmPrefPaneView];
+        
+        [tmPrefPaneObject didSelect];
+        
+        // sync TM pref pane info
+        [[self updateTMName] addObserver:self forKeyPath:@"stringValue" options:0 context:ADDTMPrefPaneNameFieldObserver];
+        [[self updateTMOldestBackup] addObserver:self forKeyPath:@"stringValue" options:0 context:ADDTMPrefPaneOldestBackupFieldObserver];
+        [[self updateTMLatestBackup] addObserver:self forKeyPath:@"stringValue" options:0 context:ADDTMPrefPaneLatestBackupFieldObserver];
+        [[self updateTMNextBackup] addObserver:self forKeyPath:@"stringValue" options:0 context:ADDTMPrefPaneNextBackupFieldObserver];
+        [[self updateProgressTextField] addObserver:self forKeyPath:@"stringValue" options:0 context:ADDTMPrefPaneProgressTextFieldObserver];
+        id TMprogressIndicator = [self updateProgressIndicator];
+        [TMprogressIndicator addObserver:self forKeyPath:@"isIndeterminate" options:0 context:ADDTMPrefPaneProgressIndicatorObserver];
+        [TMprogressIndicator addObserver:self forKeyPath:@"doubleValue" options:0 context:ADDTMPrefPaneProgressIndicatorObserver];
+        
+        // if the volume name doesn't match, choose the drive
+        //TODO: Critical: also check server is ADDAFPForwardingHost (or ADDAFPForwardingHost:ADDAFPForwardingPort?)
+        if (![volumeName isEqualToString:[ADDAppConfig sharedAppConfig].serverConfig.afpVolumeName])
+        {
+            [self performSelector:@selector(presentChangeVolumeView) withObject:nil afterDelay:0.1];
+        }
+        else
+        {
+            [self performSelector:@selector(presentSizeView) withObject:nil afterDelay:0.1];
+        }
+            
+    }
+    else 
+    {
+        NSLog(@"couldn't loadMainView");
+
+        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        [alert addButtonWithTitle:@"OK"];
+        [alert setMessageText:@"Displaying Time Machine preferences failed"];
+        [alert setInformativeText:@"Unable to display the Time Machine preferences"];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        
+        [alert beginSheetModalForWindow:[self.windowController window]
+                          modalDelegate:nil
+                         didEndSelector:NULL
+                            contextInfo:nil];
+        
+    }
+    
+    //swizzle AppleTMSettings - (BOOL)setBackupPath:(id)arg1 error:(id *)arg2;
+	BOOL ret = MethodSwizzle(NSClassFromString(@"AppleTMSettings"), @selector(setBackupPath:error:), @selector(newSetBackupPath:error:), YES);
+    
+    [onOffControl setTarget:self];
+    [onOffControl setAction:@selector(onOffClicked:)];
+}
+
+- (void)presentChangeVolumeView
+{
+    [(ADDMainWindowController *)self.windowController resizeToViewHeight:[self.view frame].size.height + [changeVolumeView frame].size.height
+                                                              fromHeight:[self.view frame].size.height
+                                                                 animate:YES];
+    
+    [[self.view superview] addSubview:changeVolumeView];
+    
+    ADDBonjour *b = [[[ADDBonjour alloc] init] autorelease];
+    if (![b regService])
+    {
+        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        [alert addButtonWithTitle:@"OK"];
+        [alert setMessageText:@"Advertising volume failed"];
+        [alert setInformativeText:@"Unable to advertise the Dolly Drive share with Bonjour"];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        
+        [alert beginSheetModalForWindow:[self.windowController window]
+                          modalDelegate:nil
+                         didEndSelector:NULL
+                            contextInfo:nil];
+        
+        return;
+    }    
+    
+    [self.windowController.window makeFirstResponder:addDollyNowButton];
+    [self.windowController.window setDefaultButtonCell:[addDollyNowButton cell]];
+}
+
+- (void)turnTMOff
+{
+    NSButton *button = [tmPrefPaneObject valueForKey:@"_offButton"];
+    [[button target] performSelector:[button action] withObject:button];
+}
+
+- (void)turnTMOn
+{
+    NSButton *button = [tmPrefPaneObject valueForKey:@"_onButton"];
+    [[button target] performSelector:[button action] withObject:button];
+}
+
+- (void)presentSizeView
+{
+    // also adding the clone view
+    if (!self.mainWindowCloneVC)
+        self.mainWindowCloneVC = [[[ADDMainWindowCloneVC alloc] initWithNibName:nil bundle:nil] autorelease];
+    
+    [(ADDMainWindowController *)self.windowController resizeToViewHeight:[self.view frame].size.height +
+                                                                         [sizeView frame].size.height +
+                                                                         [mainWindowCloneVC.view frame].size.height
+                                                          fromHeight:[self.view frame].size.height
+                                                                 animate:YES];
+    // want sizeView above the clone view
+    NSRect sizeViewFrame = [sizeView frame];
+    sizeViewFrame.origin.y = [mainWindowCloneVC.view frame].size.height;
+    [sizeView setFrame:sizeViewFrame];
+    
+    [[self.view superview] addSubview:sizeView];
+    [[self.view superview] addSubview:self.mainWindowCloneVC.view];
+    
+    // if first run, stop backups and show assistant
+    ADDAppConfig *appConfig = [ADDAppConfig sharedAppConfig];
+    if ([appConfig isFirstRun])
+    {
+        [self turnTMOff];
+        [self showAssistant:nil];
+    }
+    
+    self.dollyConfigured = YES;
+}
+
+- (int)desiredRow
+{
+    NSArray *destinations = [tmPrefPaneObject valueForKeyPath:@"_destinationSheetController._destinations"];
+    
+    // we're assuming that the order of the array matches the order of the datasource which it seems to.
+    
+    NSString *bonjourURLMatchString = [NSString stringWithFormat:@"afp://%@:%d/%@", ADDAFPForwardingHost, ADDAFPForwardingPort, [ADDAppConfig sharedAppConfig].serverConfig.afpVolumeName];
+    NSURL *bonjourURLMatch = [NSURL URLWithString:bonjourURLMatchString];
+    
+    int rowIndex = -1;
+    int matchedRowIndex = -1;
+    for (id object in destinations)
+    {
+        ++rowIndex;
+        id theURL = [object valueForKey:@"BonjourServerURL"];
+        NSLog(@"bonjour url: %@", theURL);
+        if (
+            [theURL isKindOfClass:[NSURL class]] &&
+            [theURL isEqual:bonjourURLMatch]
+            )
+        {
+            matchedRowIndex = rowIndex;
+            break;
+        }
+    }
+    
+    return matchedRowIndex;
+}
+
+- (void)continueChoosingDiskAtIndex1
+{
+    // scroll to the row
+    int rowIndex = [self desiredRow];
+    if (rowIndex != -1)
+    {
+        NSLog(@"found at row index %d", rowIndex);
+        
+        NSTableView *tableView = [tmPrefPaneObject valueForKeyPath:@"_destinationSheetController._destinationsTableView"];
+        
+        // want the user to see which disk has been selected to avoid confusion
+        [tableView scrollRowToVisible:rowIndex];
+        
+        // need the run loop to process the tablview scroll
+        [self performSelector:@selector(continueChoosingDiskAtIndex2)
+                   withObject:nil
+                   afterDelay:0.1];
+    }
+    else 
+    {
+        NSButton *cancelButton = [tmPrefPaneObject valueForKeyPath:@"_destinationSheetController._cancelButton"];
+        [[cancelButton target] performSelector:[cancelButton action] withObject:nil];
+        
+        if (chooseVolumeRetries++ < 1)
+        {
+            [self setVolume:nil];
+        }
+        else 
+        {
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            [alert addButtonWithTitle:@"OK"];
+            [alert setMessageText:@"Couldn't find the disk"];
+            [alert setInformativeText:@"The Dolly Drive disk couldn't be found. Please try again or select it using the Time Machine System Preference Pane."];
+            [alert setAlertStyle:NSWarningAlertStyle];
+        
+            [alert beginSheetModalForWindow:[self.windowController window] modalDelegate:nil didEndSelector:nil contextInfo:nil];
+        }
+    }
+}
+
+- (void)continueChoosingDiskAtIndex2
+{
+    TMDestinationSheetController *sheetController = [tmPrefPaneObject valueForKey:@"_destinationSheetController"];
+    
+    // choose the disk
+    NSTableView *tableView = [sheetController valueForKey:@"_destinationsTableView"];
+    
+    // check the row again - disks may have come online
+    
+    // we're assuming that the order of the array matches the order of the datasource which it seems to.
+    
+    int rowIndex = [self desiredRow];
+    if (rowIndex != -1)
+    {
+        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:rowIndex];
+        [tableView selectRowIndexes:indexSet byExtendingSelection:NO];
+        
+        // click the button
+        NSButton *okButton = [sheetController valueForKey:@"_okButton"];
+        [[okButton target] performSelector:[okButton action] withObject:sheetController afterDelay:0.1];
+    }
+    
+    [changeVolumeView removeFromSuperview];
+    [[self.view superview] addSubview:mountHelpView]; 
+    
+}
+
+#pragma mark -
+#pragma mark Keeping fields in sync
+
+//TODO: Critical: the below valueForKey: calls should trap for exceptions
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (context == ADDTMPrefPaneNameFieldObserver)
+        [self updateTMName];
+    else if (context == ADDTMPrefPaneOldestBackupFieldObserver)
+        [self updateTMOldestBackup];
+    else if (context == ADDTMPrefPaneLatestBackupFieldObserver)
+        [self updateTMLatestBackup];
+    else if (context == ADDTMPrefPaneNextBackupFieldObserver)
+        [self updateTMNextBackup];
+    else if (context == ADDTMPrefPaneProgressTextFieldObserver)
+        [self updateProgressTextField];
+    else if (context == ADDTMPrefPaneProgressIndicatorObserver)
+        [self updateProgressIndicator];
+}
+
+- (void)updateProgress
+{
+    NSProgressIndicator *tmProgressIndicator = [tmPrefPaneObject valueForKey:@"_progressIndicator"];
+    ADDAppConfig *appConfig = [ADDAppConfig sharedAppConfig];
+    NSTextField *tmProgressTextField = [tmPrefPaneObject valueForKey:@"_progressTextField"];
+    
+    self.progressDescription = [tmProgressTextField stringValue];
+    
+    self.progressIndicatorIsIndeterminate = [tmProgressIndicator isIndeterminate];
+    self.progressIndicatorMinValue = [tmProgressIndicator minValue];
+    self.progressIndicatorMaxValue = [tmProgressIndicator maxValue];
+    self.progressIndicatorDoubleValue = [tmProgressIndicator doubleValue];    
+
+    if ([tmProgressIndicator isHidden] && ![self.progressDescription hasPrefix:@"Making backup disk available"])
+    {
+        if (appConfig.backupInProgress == YES)
+            appConfig.backupInProgress = NO;
+        
+        [nextBackupLabelTextField setStringValue:@"Next Backup:"];
+        [nextBackupTextField setHidden:NO];
+        [backupProgressTextField setHidden:YES];
+        [backupProgressIndicator setHidden:YES];
+        
+        [backupProgressIndicator stopAnimation:self];
+        
+        [self.progressTimer invalidate];
+        self.progressTimer = nil;
+    }
+    else 
+    {
+        if (appConfig.backupInProgress == NO)
+            appConfig.backupInProgress = YES;
+        
+        [nextBackupLabelTextField setStringValue:@"Backing Up:"];
+        [nextBackupTextField setHidden:YES];
+        [backupProgressTextField setHidden:NO];
+        [backupProgressIndicator setHidden:NO];
+        
+        [backupProgressIndicator startAnimation:self];
+        
+        if (!self.progressTimer)
+            self.progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
+    }
+    
+    self.progressIndicatorIsIndeterminate = [tmProgressIndicator isIndeterminate];
+    
+    //TODO: not locale safe
+    if ([self.progressDescription hasPrefix:@"Stopping backup"] || [self.progressDescription hasPrefix:@"Cleaning up"])
+        self.progressIndicatorIsIndeterminate = YES;
+    
+    // indeterminate status doesn't seem to be set correctly to start with
+    if (self.progressIndicatorDoubleValue <= self.progressIndicatorMinValue)
+        self.progressIndicatorIsIndeterminate = YES;    
+}
+
+- (id)updateProgressTextField
+{
+    NSTextField *tmProgressTextField = [tmPrefPaneObject valueForKey:@"_progressTextField"];
+
+    [self updateProgress];
+        
+    return tmProgressTextField;
+}
+
+- (id)updateProgressIndicator
+{
+    NSProgressIndicator *tmProgressIndicator = [tmPrefPaneObject valueForKey:@"_progressIndicator"];
+        
+    [self updateProgress];
+    
+    return tmProgressIndicator;
+}
+
+- (id)updateTMName
+{
+    NSTextField *tmNameField = [tmPrefPaneObject valueForKey:@"_destinationNameTextField"];
+    self.volumeName = [tmNameField stringValue];
+    
+    if ([self.volumeName isEqualToString:[ADDAppConfig sharedAppConfig].serverConfig.afpVolumeName])
+    {
+        if ([mountHelpView superview] || [changeVolumeView superview])
+        {
+            [(ADDMainWindowController *)self.windowController resizeToViewHeight:[self.view frame].size.height
+                                                                  fromHeight:[self.view frame].size.height + [changeVolumeView frame].size.height
+                                                                         animate:YES];
+            if ([mountHelpView superview])
+                [mountHelpView removeFromSuperview];
+            
+            if ([changeVolumeView superview])
+                [changeVolumeView removeFromSuperview];
+        }
+        
+        if (![sizeView superview])
+        {
+            [self presentSizeView];
+        }
+    }
+    
+    return tmNameField;
+}
+
+- (id)updateTMOldestBackup
+{
+    NSTextField *tmOldestBackupField = [tmPrefPaneObject valueForKey:@"_oldestBackupTextField"];
+    self.oldestBackup = [tmOldestBackupField stringValue];
+    
+    return tmOldestBackupField;
+}
+
+- (id)updateTMLatestBackup
+{
+    NSTextField *tmLatestBackupField = [tmPrefPaneObject valueForKey:@"_latestBackupTextField"];
+    self.latestBackup = [tmLatestBackupField stringValue];
+    
+    return tmLatestBackupField;
+}
+
+- (id)updateTMNextBackup
+{
+    NSTextField *tmNextBackupField = [tmPrefPaneObject valueForKey:@"_nextBackupTextField"];
+    self.nextBackup = [tmNextBackupField stringValue];
+    
+    // the next field is updated along with the on/off button
+    [self updateTMOnOff];
+    
+    return tmNextBackupField;
+}
+
+- (BOOL)TMisOn
+{
+    TMSliderView *tmOnOffView = [tmPrefPaneObject valueForKey:@"_onOffSliderView"];
+    return (NSInteger)[tmOnOffView state] == 1;
+}
+
+- (id)updateTMOnOff
+{
+    TMSliderView *tmOnOffView = [tmPrefPaneObject valueForKey:@"_onOffSliderView"];
+    self.onOffSelection = (NSInteger)[tmOnOffView state];
+    
+    return nil;
+}
+
+#pragma mark -
+#pragma mark IBActions
+
+- (IBAction) setVolume:(id)sender
+{    
+    // stop time machine
+    NSButton *offButton = [tmPrefPaneObject valueForKey:@"_offButton"];
+    [[offButton target] performSelector:[offButton action] withObject:offButton];
+        
+    // show chooser
+    //NSButton *chooseDiskButton = [tmPrefPaneObject valueForKey:@"_chooseDiskButton"];
+    //[[chooseDiskButton target] performSelector:[chooseDiskButton action] withObject:nil];
+    
+    // wait a little for disks/bonjour to come online
+    //[self performSelector:@selector(continueChoosingDiskAtIndex1) withObject:nil afterDelay:1.2];    
+    
+    /*
+    FSVolumeRefNum volRefNum = 0;
+    NSURL *url = [NSURL URLWithString:@"afp://localhost:5548"];
+    OSStatus ret = FSMountServerVolumeSync (
+                                            (CFURLRef)url, //CFURLRef url,
+                                            NULL, //CFURLRef mountDir,
+                                            (CFStringRef)@"mark36", //CFStringRef user,
+                                            (CFStringRef)@"flubber", //CFStringRef password,
+                                            &volRefNum, //FSVolumeRefNum *mountedVolumeRefNum,
+                                            0 //OptionBits flags
+                                            );
+    
+    NSLog(@"FSMountServerVolumeSync ret: %d", ret);
+    
+    NSURL *mount = nil;
+    ret = FSCopyURLForVolume (
+                              volRefNum, //FSVolumeRefNum vRefNum,
+                              (CFURLRef*)&mount //CFURLRef *url
+                              );
+    
+    NSLog(@"ret: %d, mount: %@", ret, mount);
+     */
+    
+    Class appleTMSettingsClass = NSClassFromString(@"AppleTMSettings");
+     
+    AppleTMSettings *settings = [appleTMSettingsClass sharedSettings];
+    NSError *error = nil;
+    BOOL ret = [settings setBackupPath:@"/Volumes/DollyBeta422" error:&error];
+     
+    NSLog(@"ret: %@ error: %@", ret ? @"YES" : @"NO", error);
+    
+    
+}
+
+- (IBAction)onOffClicked:(NSSegmentedControl *)sender
+{
+    NSInteger idx = [sender selectedSegment];
+    NSButton *button = idx == 0 ? [tmPrefPaneObject valueForKey:@"_offButton"] : [tmPrefPaneObject valueForKey:@"_onButton"];
+    [[button target] performSelector:[button action] withObject:button];
+}
+
+- (IBAction)editExclusions:(id)sender
+{
+    NSButton *optionsButton = [tmPrefPaneObject valueForKey:@"_optionsButton"];
+    [[optionsButton target] performSelector:[optionsButton action] withObject:optionsButton];
+}
+
+- (IBAction)showAssistant:(id)sender
+{
+    if (!self.exclusionsWindowController)
+    {
+        self.exclusionsWindowController = [[ADDExclusionsWindowController alloc] init];
+    }
+        
+    [self.exclusionsWindowController showWindow:sender];
+    
+    // TM shouldn't be able to auto-start while the assistant is open (since if someone is
+    // there to disable backing up a big folder, don't want to start backing up in the mean time)
+    // but don't touch if there is a backup running
+    if ([self TMisOn])
+    {
+        TMWasOnBeforeShowingAssistant = YES;
+        
+        if (![ADDAppConfig sharedAppConfig].backupInProgress)
+            [self turnTMOff];
+    }
+    else 
+    {
+        TMWasOnBeforeShowingAssistant = NO;
+    }
+    
+    ((ADDExclusionsVC *)self.exclusionsWindowController.viewController).delegate = self;
+}
+
+- (IBAction)backupNow:(id)sender
+{
+    [[ADDAppConfig sharedAppConfig] performSelectorInBackground:@selector(forceTMBackupNow) withObject:nil];
+}
+
+- (IBAction)enterTimeMachine:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] launchApplication:@"Time Machine"];
+}
+
+#pragma mark -
+#pragma mark ADDExclusionVCDelegate methods
+
+- (void)exclusionsDidSave
+{
+    // don't touch if there is currently a backup in progress
+    ADDAppConfig *appConfig = [ADDAppConfig sharedAppConfig];
+    if (!appConfig.backupInProgress)
+    {
+        if ([appConfig isFirstRun] || TMWasOnBeforeShowingAssistant)
+            [self turnTMOn];
+    
+        if ([appConfig isFirstRun] && ! appConfig.firstRunBackupStarted)
+        {
+            [appConfig performSelectorInBackground:@selector(forceTMBackupNow) withObject:nil];
+            appConfig.firstRunBackupStarted = YES;
+        }
+    }
+}
+
+- (void)exclusionsDidCancel
+{
+    // don't touch if there is currently a backup in progress
+    ADDAppConfig *appConfig = [ADDAppConfig sharedAppConfig];
+    if (!appConfig.backupInProgress)
+    {        
+        if (TMWasOnBeforeShowingAssistant)
+            [self turnTMOn];
+    }
+}
+
+#pragma mark -
+#pragma mark Cleanup
+
+- (void)dealloc
+{
+    // remove observers
+    [[self updateTMName] removeObserver:self forKeyPath:@"stringValue"];
+    
+    ((ADDExclusionsVC *)self.exclusionsWindowController.viewController).delegate = nil;
+    
+    if ([tmPrefPaneObject shouldUnselect] != NSUnselectLater)
+    {
+        DollyDriveAppAppDelegate *appDelegate = [[NSApplication sharedApplication] delegate];
+        [appDelegate setTMPrefPaneObject:nil];
+        [tmPrefPaneObject willUnselect];
+        [tmPrefPaneView removeFromSuperview];
+        [tmPrefPaneObject didUnselect];
+    }
+    
+    [super dealloc];
+}
+
+@end

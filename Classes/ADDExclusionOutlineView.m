@@ -1,0 +1,18 @@
+//
+//  ADDExclusionOutlineView.m
+//  DollyDriveApp
+//
+//  Created by Mark Aufflick on 11/01/11.
+//  Copyright 2011 Pumptheory. All rights reserved.
+//
+
+#import "ADDExclusionOutlineView.h"
+
+
+@implementation ADDExclusionOutlineView
+
+- (void)selectRowIndexes:(NSIndexSet *)indexes byExtendingSelection:(BOOL)shouldExtend
+{
+    // do nothing
+}
+@end

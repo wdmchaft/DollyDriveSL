@@ -1,0 +1,77 @@
+/* 
+  Localizable.strings
+  DollyDriveApp
+
+  Created by Alan Rogers on 7/04/11.
+  Copyright 2011 __MyCompanyName__. All rights reserved.
+*/
+
+/* Preparing the TM volume, or creating a sparsebundle */
+"PreparingTMVolumeTitle" = "Preparing Time Machine Volume…";
+
+/* Instructions for a new clone */
+
+"NewCloneInstructions" = "Cloning will erase all data on the target volume, and replace it with the data from the source volume.";
+
+/* Instructions for an incremental clone */
+
+"IncrementalInstructions" = "An incremental clone will update the data on the target volume to match the data on the source volume.\nNOTE: Any files that exist only on the target volume will be deleted.";
+
+/* Incremental Clone Warning */
+
+"IncrementalAlertTitle" = "The destination volume will be updated to match the source volume.";
+
+"IncrementalAlertMessage" = "Any data that currently exists only on the destination volume will be lost. Do you wish to continue?";
+
+"CloneInProgressTitle" = "Clone In Progress";
+
+"CloneInProgressMessage" = "A clone is currently in progress, would you like to cancel the clone?";
+
+/* Button Title */
+"StopClone" = "Stop Clone";
+
+/* Button Title */
+"Abort" = "Abort";
+
+/* Progress Status */
+"Aborting\\U2026" = "Aborting…";
+
+/* Informative Text */
+"All data on the destination volume will be lost. Do you wish to continue?" = "All data on the destination volume will be lost. Do you wish to continue?";
+
+/* Progress Title */
+"Cloning %@" = "Cloning %@";
+
+/* Button Title */
+"Continue" = "Continue";
+
+/* Progress Status */
+"Copying\\U2026" = "Copying…";
+
+/* Message Text */
+"Failed to clone volume!" = "Failed to clone volume!";
+
+/* Progress Status */
+"Initialising\\U2026" = "Initialising…";
+
+/* Progress Status */
+"Mounting\\U2026" = "Mounting…";
+
+/* Error message */
+"The destination volume appears to be in use. Please quit all other applications and then try again." = "The destination volume appears to be in use. Please quit all other applications and then try again.";
+
+/* Message Text */
+"The destination volume will be erased." = "The destination volume will be erased.";
+
+/* Informative Text */
+"There was a problem cloning the volume. %@" = "There was a problem cloning the volume. %@";
+
+/* Error Message */
+"Unable to mount the source volume." = "Unable to mount the source volume.";
+
+/* Progress Status */
+"Verifying\\U2026" = "Verifying…";
+
+/* Message Text */
+"Your volume was successfully cloned!" = "Your volume was successfully cloned!";
+

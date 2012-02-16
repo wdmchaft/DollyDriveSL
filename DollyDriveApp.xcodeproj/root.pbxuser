@@ -1,0 +1,150 @@
+// !$*UTF8*$!
+{
+	29B97313FDCFA39411CA2CEA /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = 61FADA0112BC4E4800CC9E52 /* DollyDriveHelper */;
+		activeTarget = 64282C4612B05B55000EE4CC /* DollyDriveHelper */;
+		codeSenseManager = 61FADA1D12BC4E6C00CC9E52 /* Code sense */;
+		executables = (
+			61FADA0012BC4E4800CC9E52 /* DollyDriveApp */,
+			61FADA0112BC4E4800CC9E52 /* DollyDriveHelper */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					341,
+					20,
+					48.16259765625,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 314330696;
+			PBXWorkspaceStateSaveDate = 314330696;
+		};
+		perUserProjectItems = {
+			61FADA1E12BC4E7C00CC9E52 /* PBXBookmark */ = 61FADA1E12BC4E7C00CC9E52 /* PBXBookmark */;
+			61FADA1F12BC4E7C00CC9E52 /* PBXTextBookmark */ = 61FADA1F12BC4E7C00CC9E52 /* PBXTextBookmark */;
+		};
+		sourceControlManager = 61FADA1C12BC4E6C00CC9E52 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	61FADA0012BC4E4800CC9E52 /* DollyDriveApp */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = DollyDriveApp;
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+	};
+	61FADA0112BC4E4800CC9E52 /* DollyDriveHelper */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = DollyDriveHelper;
+		savedGlobals = {
+		};
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+	};
+	61FADA1C12BC4E6C00CC9E52 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+	};
+	61FADA1D12BC4E6C00CC9E52 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	61FADA1E12BC4E7C00CC9E52 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 64282B9D12AF9B9B000EE4CC /* ADDServerConfig.m */;
+	};
+	61FADA1F12BC4E7C00CC9E52 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 64282B9D12AF9B9B000EE4CC /* ADDServerConfig.m */;
+		name = "ADDServerConfig.m: 48";
+		rLen = 0;
+		rLoc = 1081;
+		rType = 0;
+		vrLen = 974;
+		vrLoc = 584;
+	};
+	64282B9D12AF9B9B000EE4CC /* ADDServerConfig.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {782, 1313}}";
+			sepNavSelRange = "{1081, 0}";
+			sepNavVisRange = "{584, 974}";
+		};
+	};
+	64282C4612B05B55000EE4CC /* DollyDriveHelper */ = {
+		activeExec = 0;
+		executables = (
+			61FADA0112BC4E4800CC9E52 /* DollyDriveHelper */,
+		);
+	};
+	8D1107260486CEB800E47090 /* DollyDriveApp */ = {
+		activeExec = 0;
+		executables = (
+			61FADA0012BC4E4800CC9E52 /* DollyDriveApp */,
+		);
+	};
+}

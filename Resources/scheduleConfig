@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frequency</key>
+	<string>d</string>
+	<key>interval</key>
+	<integer>1</integer>
+	<key>schedulerActive</key>
+	<integer>0</integer>
+	<key>schedulerDailyStartTime</key>
+	<string>00:00</string>
+	<key>schedulerLastBackup</key>
+	<string>2011-07-25 14:09:41 +0000</string>
+	<key>schedulerOffEndTime</key>
+	<string>03:00</string>
+	<key>schedulerOffStartTime</key>
+	<string>02:00</string>
+	<key>schedulerShowInStatusBar</key>
+	<integer>0</integer>
+	<key>schedulerSkipTimesActive</key>
+	<integer>1</integer>
+</dict>
+</plist>

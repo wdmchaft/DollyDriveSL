@@ -1,0 +1,41 @@
+* Required for all hosts:
+** install to the same platform is via tar/gz
+** make sure create_sparsebundle.pl is owned by root and not writeable by anyone (since the web server will be running it via sudo - don't want any attack vectors...)
+** add the following line to sudoers (using visudo):
+
+#
+# DOLLY DRIVE AFP SERVER CONFIG
+#
+Cmnd_Alias CREATE_SPARSEBUNDLE = /Users/trigger/preview/create_sparsebundle.pl
+trigger ALL=NOPASSWD:CREATE_SPARSEBUNDLE
+
+where "trigger" is the user running the mini-server. In production, the user running the mini server should have no other sudo permissions (ie. not be an admin user)
+
+
+
+install steps for new platform/version:
+
+mkdir ~/preview
+mkdir -p ~/perl5/lib/perl5/local
+
+curl -o - http://cpansearch.perl.org/src/APEIRON/local-lib-1.007000/lib/local/lib.pm > ~/perl5/lib/perl5/local/lib.pm
+
+cat <<'EOF' >> ~/.profile
+eval $(perl -I $HOME/perl5/lib/perl5 -Mlocal::lib)
+PERL5LIB=$HOME/preview:$PERL5LIB
+EOF
+
+* log out and log back in
+
+perl -MCPAN -eshell                   # (allow it to auto configure, then enter "q" to quit)
+perl -MCPAN -e'CPAN::install(YAML)' # say yes to any prompts
+perl -MCPAN -e'CPAN::install(Dancer)' # say yes to any prompts
+perl -MCPAN -e'CPAN::install(Plack)' # say yes to any prompts
+perl -MCPAN -e'CPAN::install(LockFile::Simple)' # say yes to any prompts
+perl -MCPAN -e'CPAN::install(IO::Socket::SSL)' # say yes to any prompts, but no to the internet tests (some servers not online)
+perl -MCPAN -e'CPAN::install(JSON::Any)' # say yes to any prompts, including installing JSON::XS
+
+put the HTTP::Server::PSGI SSL hack into the ~/preview path
+put the scripts/servers into the ~/preview path
+
+also need to create the ssl self-signed cert/key : openssl req -new -newkey rsa:1024 -days 365 -nodes -x509 -keyout server-key.pem -out server-cert.pem

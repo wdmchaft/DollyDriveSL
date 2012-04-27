@@ -875,7 +875,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 
 - (IBAction)accountDetails:(id)sender
 {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://get.dollydrive.com/auth/users/login"]
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://10.0.4.9:30001/auth/users/login"]
                                              cachePolicy:NSURLRequestReloadIgnoringCacheData
                                          timeoutInterval:60.0];
     [ [ NSWorkspace sharedWorkspace ] openURL:[request URL] ];

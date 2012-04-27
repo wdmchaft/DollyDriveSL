@@ -43,7 +43,7 @@ int	 gethostuuid(uuid_t, const struct timespec *);
 
 - (void)forgottenPassword:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://get.dollydrive.com/my_account/forgot_password"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://10.0.4.9:30001/my_account/forgot_password"]];
 }
 
 - (void)awakeFromNib

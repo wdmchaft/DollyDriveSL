@@ -2372,7 +2372,7 @@
 				GCC_PREFIX_HEADER = OtherSources/DollyDriveApp_Prefix.pch;
 				INFOPLIST_FILE = "Resources/DollyDriveApp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "Dolly Drive";
 				SDKROOT = macosx;
 			};
@@ -2394,7 +2394,7 @@
 				GCC_PREFIX_HEADER = OtherSources/DollyDriveApp_Prefix.pch;
 				INFOPLIST_FILE = "Resources/DollyDriveApp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "Dolly Drive";
 				SDKROOT = macosx;
 			};

@@ -13,8 +13,8 @@
 #import "ADDKeyManagement.h"
 #import "ADDKeyChainManagement.h"
 
-static NSString *userInfoSubmissionURLFormatString = @"https://admin01.dollydrive.com:%u/api/1/client_account_info";
-static NSString *createSparseBundleURLFormatString = @"https://admin01.dollydrive.com:%u/api/1/client_create_sparsebundle";
+static NSString *userInfoSubmissionURLFormatString = @"https://10.0.4.9:%u/api/1/client_account_info";
+static NSString *createSparseBundleURLFormatString = @"https://10.0.4.9:%u/api/1/client_create_sparsebundle";
 static NSString *sharedSecret = @"f3c85dca78aa40a81beff92139e40a5a";
 
 @interface ADDServerRequestJSON (Private)

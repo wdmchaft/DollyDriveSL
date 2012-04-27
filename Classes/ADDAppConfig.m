@@ -673,7 +673,7 @@ ADDAppConfig *_sharedAppConfig;
 {
     NSNumber *port = [[NSUserDefaults standardUserDefaults] objectForKey:ADDApiPortDefaultsKey];
     
-    return port ? [port unsignedIntegerValue] : ADDApiPortProduction;
+    return port ? [port unsignedIntegerValue] : ADDApiPortStaging;
 }
 
 - (BOOL)apiPortIsStaging
